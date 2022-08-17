@@ -14,12 +14,19 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
     }
 });
-io.on("connection",(socket)=>{
+io.on("connection", (socket) => {
     // This is our Action call back function 
     // The socket parameter is used to specify the event for the user who is connected
     // And we can access information. Each user get a specific id when they connect to the socket server
-    console.log(socket.id);
-    io.on("disconnect",()=>{
+    console.log(`User Connected ${socket.id}`);
+
+
+    // Joining a room
+    socket.on("join_room", (data) => {
+        socket.join(data)
+        console.log(`User with ID : ${socket.id} joined room ${data}`)
+    })
+    socket.on("disconnect", () => {
         console.log(`User disconnected ${socket.id}`)
     })
 
